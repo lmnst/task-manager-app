@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
     <nav className="navbar">
       <div className="navbar-container">
         {/* */}
-        <Link to="/" className="bavbar-logo">
+        <Link to="/" className="navbar-logo">
           Task Manager
         </Link>
 

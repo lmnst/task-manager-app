@@ -82,7 +82,7 @@ const RegisterPage: React.FC = () => {
         password
       };
 
-      const response = await axios.post('http://localhost:5001/api/users/register', newUser);
+      const response = await axios.post('http://localhost:5000/api/users/register', newUser);
 
       console.log('Sign up Successfully:', response.data);
       alert('Registration successful! You will be redirected to the login page shortly.');
