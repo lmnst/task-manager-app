@@ -84,7 +84,7 @@ const generateToken = (id) => {
 };
 
 const registerUser = async (req, res) => {
-    const {username, email, passward} = req.body;
+    const {username, email, password} = req.body;
 
     const userExists = await User.findOne({email});
 

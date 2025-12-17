@@ -31,7 +31,7 @@ const { registerUser, authUser } = require('../controllers/userController');
 
 //router.HTTP(URL, callback function)
 //      post/get
-router.post('/registe', registerUser);
+router.post('/register', registerUser);
 router.post('/login', authUser);
 
 module.exports = router;
