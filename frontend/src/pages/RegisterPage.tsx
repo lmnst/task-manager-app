@@ -82,7 +82,8 @@ const RegisterPage: React.FC = () => {
         password
       };
 
-      const response = await axios.post('http://localhost:5000/api/users/register', newUser);
+      const API_URL = import.meta.env.VITE_API_BASE_URL;
+      const response = await axios.post(`${API_URL}/api/users/register`, newUser);
 
       console.log('Sign up Successfully:', response.data);
       alert('Registration successful! You will be redirected to the login page shortly.');

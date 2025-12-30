@@ -57,8 +57,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; //???
 import './Navbar.css';
+import { useAuth } from '../context/AuthContext';
+
 
 const Navbar: React.FC = () => {
+  const { userInfo, logout} = useAuth();
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -67,18 +71,30 @@ const Navbar: React.FC = () => {
           Task Manager
         </Link>
 
-        {/* */}
-        <ul className="nav-menu">
-          <li className="nav-item">
-            <Link to="/login" className="nav-links">
-              Sign in
-            </Link>
-          </li>
-          <li>
-            <Link to="/register" className="nav-links">
-              Sign up
-            </Link>
-          </li>
+        <ul className='nav-menu'>
+          {
+            userInfo ? (
+              <>
+                <li className='nav-item'>
+                  <span className='nav-links'>Hello, {userInfo.username}</span>
+                </li>
+                <li className='nav-item'>
+                  <button onClick={logout} className='nav-links' style={{cursor: 'pointer', background: 'none', border: 'none', color: 'white'}}>
+                    logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className='nav-item'>
+                  <Link to="/login" className='nav-links'>Sign in</Link>
+                </li>
+                <li className='nav-item'>
+                  <Link to="/register" className='nav-links'>Sign up</Link>
+                </li>
+              </>
+            )
+          }
         </ul>
       </div>
     </nav>

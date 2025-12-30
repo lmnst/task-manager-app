@@ -29,6 +29,11 @@ const router = express.Router();
 //extract these two functions from the imported object
 const { registerUser, authUser } = require('../controllers/userController');
 
+const { protect } = require('../middleware/authMiddleware');
+router.route('/profile').get(protect, (req, res)=> {
+    res.json(req.user);
+}); 
+
 //router.HTTP(URL, callback function)
 //      post/get
 router.post('/register', registerUser);
