@@ -53,15 +53,79 @@
 
 // export default LoginPage;
 
-import React from 'react';
+
+import axios from 'axios';
+import './LoginPage.css';
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { login } = useAuth();
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if(!email || !password) {
+      alert('Please input the email and the password!')
+      return;
+    }
+
+    try {
+      const API_URL = import.meta.env.VITE_API_BASE_URL;
+      const response = await axios.post(`${API_URL}/api/users/login`, {
+        email,
+        password,
+      });
+
+      console.log('Login successful:', response.data);
+
+      login(response.data);
+
+      alert('Login successful! Redirecting...')
+    } catch (error: any) {
+      const message = error.response?.data?.message ||'Login failed. Please check your username and password.';
+      console.log('Error message:', message);
+      alert(message);
+    }
+  };
+
   return (
-    <div>
-      <h1>LoginPage</h1>
-      <p>(登录表单)</p>
+    <div className="form-container">
+      <div className="form-card">
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit}>
+          <div className='form-group'>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className='form-group'>
+            <label>password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type='submit' className='submit-btn'>Login</button>
+        </form>
+      </div>
     </div>
   );
+
+
 };
+
+
+
+
 
 export default LoginPage;

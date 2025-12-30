@@ -28,16 +28,16 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App.tsx';
 
-// import { AuthProvider } from './context/AuthContext'; // 1. 引入 AuthProvider
+import { AuthProvider } from './context/AuthContext'; // 1. 引入 AuthProvider
 
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>        
-      {/* <AuthProvider>       ✅ 2. AuthProvider 在 Router 里面 */}
-        <App />            {/* ✅ 3. App 在最里面 */}
-      {/* </AuthProvider> */}
+      <AuthProvider>       
+        <App />            
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
