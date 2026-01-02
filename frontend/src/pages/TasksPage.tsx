@@ -49,6 +49,41 @@ const TaskPage: React.FC = () => {
     }
   };
 
+  const handleToggle = async (taskId: string, currentStatus: boolean) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${userInfo?.token}`},
+      };
+      
+      await axios.put(
+        `${API_URL}/api/tasks/${taskId}`,
+        { isCompleted: !currentStatus },
+        config
+      );
+      fetchTasks();
+    } catch (error) {
+      console.error('Update failed', error);
+      alert('Operation failed');
+    }
+  }; 
+
+  const handleDelete = async (taskId: string) => {
+    if (!window.confirm('Are you sure you want to delete?'))return;
+
+    try{
+      const config = {
+        headers: {Authorization: `Bearer ${userInfo?.token}`},
+      };
+
+      await axios.delete(`${API_URL}/api/tasks/${taskId}`, config);
+
+      fetchTasks();
+    } catch (error) {
+      console.error('Delete failed', error);
+    }
+      
+  };
+
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
       <h1>My Tasks</h1>
@@ -73,10 +108,34 @@ const TaskPage: React.FC = () => {
             margin: '10px 0', 
             padding: '10px',
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            textDecoration: task.isCompleted ? 'line-through' : 'none',
+            opacity: task.isCompleted ? 0.6 : 1
           }}>
-            <span>{task.title}</span>
-            <span>{task.isCompleted ? '✅' : '⏳'}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <input 
+                type="checkbox"
+                checked={task.isCompleted}
+                onChange={() => handleToggle(task._id, task.isCompleted)}
+                style={{ cursor: 'pointer', width: '18px', height: '18px' }}
+              />
+              <span>{task.title}</span>
+            </div>
+            <button
+              onClick={() => handleDelete(task._id)}
+                style={{
+                  background: '#ff4444', 
+                  color: 'white', 
+                  border: 'none', 
+                  padding: '5px 10px', 
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Delete
+              </button>
+            {/*<span>{task.isCompleted ? '✅' : '⏳'}</span>*/}
           </li>
         ))}
       </ul>
