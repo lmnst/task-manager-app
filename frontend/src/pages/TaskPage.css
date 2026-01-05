@@ -1,0 +1,115 @@
+.task-container {
+  padding: 20px;
+  max-width: 800px; /* 稍微宽一点，为以后三栏做准备 */
+  margin: 0 auto;
+}
+
+.task-header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* 添加任务表单 */
+.add-task-form {
+  margin-bottom: 30px;
+  display: flex;
+  gap: 10px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.task-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.priority-select {
+  padding: 0 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-add {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-add:hover {
+  background-color: #0056b3;
+}
+
+/* 任务列表 */
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  background: white;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.task-title {
+  font-size: 16px;
+  color: #333;
+}
+
+.task-completed {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.priority-tag {
+  font-size: 0.75em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: white;
+  margin-left: 8px;
+}
+
+.btn-delete {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.btn-delete:hover {
+  background-color: #cc0000;
+}
