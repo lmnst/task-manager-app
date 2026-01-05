@@ -1,6 +1,6 @@
 // src/context/AuthContext.tsx
 
-import React, { createContext, useState, useEffect, useContext, type ReactNode } from 'react';
+import { createContext, useState, useEffect, useContext, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // 1. 定义存储在 localStorage 中的用户信息类型
