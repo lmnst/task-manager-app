@@ -12,12 +12,12 @@ interface Task {
 
 
 const TaskPage: React.FC = () => {
-  const[tasks, setTasks] = useState<any[]>([]);
-  const[title,setTitle] = useState('');
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [title,setTitle] = useState('');
   const [priority, setPriority] = useState('Low');
   const [editingId, setEditingId] = useState<string | null >(null);
   const [editText, setEditText] = useState('');
-
+  const [viewMode, setViewMode] = useState<'list' | 'board'>('list');
   const { userInfo } = useAuth(); //Obtain the token from the global state
 
   const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -146,7 +146,21 @@ const TaskPage: React.FC = () => {
   return (
     <div className="task-container">
       <h1 className="task-header">Task Manager</h1>
-
+      <div style={{display: 'flex', justifyContent: 'center', marginBottom: '20px', gap: '10px'}}>
+        <button
+          className={`btn ${viewMode === 'list' ? 'btn-add' : ''}`}
+          onClick={() => setViewMode('list')}
+          style={{ background: viewMode === 'list' ? '#007bff' : '#eee', color: viewMode === 'list' ? 'white' : '#333'}}>
+            📋 List View
+          </button>
+          <button
+            className={`btn ${viewMode === 'board' ? 'btn-add' : ''}`}
+            onClick={ () => setViewMode('board')}
+            style={{ background: viewMode === 'board'? '#007bff' : '#eee', color: viewMode === 'board' ? 'white' : '#333'}}
+          >
+            📊 Board View
+          </button>
+      </div>
       <form onSubmit={handleAddTask} className="add-task-form">
         <input 
           className="task-input"
@@ -167,7 +181,8 @@ const TaskPage: React.FC = () => {
         <button type="submit" className="btn btn-add">Add</button>
       </form>
 
-      <ul className="task-list">
+      {viewMode === 'list' ? (
+        <ul className="task-list">
         {sortedTasks.map((task) => (
           <li key={task._id} className="task-item" style={{ borderLeft: `6px solid ${getPriorityColor(task.priority)}` }}>
             
@@ -224,9 +239,45 @@ const TaskPage: React.FC = () => {
           </li>
         ))}
       </ul>
+    ) : (
+      <div className="board-container">
+        {['High', 'Medium', 'Low'].map(level => (
+          <div key={level} className="board-column">
+            <h3 style={{ borderBottom: `4px solid ${getPriorityColor(level)}`, paddingBottom: '10px' }}>
+              {level} Priority
+            </h3>
+            <div className="board-tasks">
+              {/* 只筛选出当前优先级的任务 */}
+              {tasks
+                .filter(t => t.priority === level)
+                .map(task => (
+                  <div key={task._id} className="board-card" style={{ opacity: task.isCompleted ? 0.6 : 1 }}>
+                    {/* 简单的卡片内容 */}
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <span style={{ textDecoration: task.isCompleted ? 'line-through' : 'none', fontWeight: 'bold' }}>
+                            {task.title}
+                        </span>
+                        <input 
+                            type="checkbox" 
+                            checked={task.isCompleted} 
+                            onChange={() => handleToggle(task)} 
+                        />
+                    </div>
+                    {/* 在看板里也允许删除，或者为了简洁可以先不放编辑按钮 */}
+                    <div style={{marginTop: '10px', textAlign: 'right'}}>
+                        <button onClick={() => handleDelete(task._id)} className="btn-delete" style={{fontSize: '12px', padding: '4px 8px'}}>Del</button>
+                    </div>
+                  </div>
+                ))}
+                {tasks.filter(t => t.priority === level).length === 0 && <p style={{color: '#999', fontStyle: 'italic'}}>Empty</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
     </div>
   );
-};
+}; 
 export default TaskPage;
 
 
