@@ -1,10 +1,9 @@
-import Task from '../models/taskModel.js';
-
+const Task = require('../models/taskModel.js');
 
 // @desc    Retrieve all tasks for the current user
 // @route   GET /api/tasks
 // @access  Private (Requires login)
-export const getTasks = async (req, res) => {
+const getTasks = async (req, res) => {
     const tasks = await Task.find({ user: req.user._id });
 
     res.status(200).json(tasks);
@@ -13,7 +12,7 @@ export const getTasks = async (req, res) => {
 //@desc Create new task
 //@route POST/api/tasks
 //@access Private
-export const createTask = async (req, res) => {
+const createTask = async (req, res) => {
     if (!req.body.title) {
         res.status(400);
         throw new Error('Please add task title');
@@ -33,7 +32,7 @@ export const createTask = async (req, res) => {
 // @route   PUT /api/tasks/:id
 // @access  Private
 
-export const updateTask = async (req,res) => {
+const updateTask = async (req,res) => {
     const task = await Task.findById(req.params.id);
 
     if(!task) {
@@ -59,7 +58,7 @@ export const updateTask = async (req,res) => {
 // @route   DELETE /api/tasks/:id
 // @access  Private
 
-export const deleteTask = async (req, res) => {
+const deleteTask = async (req, res) => {
     const task = await Task.findById(req.params.id);
 
     if(!task) {
@@ -75,4 +74,11 @@ export const deleteTask = async (req, res) => {
     await task.deleteOne();
 
     res.status(200).json({ id: req.params.id});
+};
+
+module.exports = {
+    getTasks,
+    createTask,
+    updateTask,
+    deleteTask
 };
