@@ -35,7 +35,7 @@ import LoginPage from './pages/LoginPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
 import Navbar from './components/Navbar.tsx';
 import TasksPage from './pages/TasksPage.tsx';
-
+import ProtectedRouter from './components/ProtextedRoutr.tsx';
 import './App.css';
 
 function App() {
@@ -46,8 +46,10 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
-          <Route path='/tasks' element={<TasksPage/>}/>
           <Route path="/" element={<Navigate to="/login"/>}/>
+          <Route element={<ProtectedRouter />} >
+            <Route path='/tasks' element={<TasksPage/>}/>
+          </Route>
         </Routes>
       </main>
     </div>
