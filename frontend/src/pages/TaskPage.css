@@ -113,3 +113,44 @@
 .btn-delete:hover {
   background-color: #cc0000;
 }
+
+/* 看板容器：Flex布局，三列均分 */
+.board-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start; /* 让列的高度根据内容自适应，不要强制拉伸 */
+  margin-top: 20px;
+  overflow-x: auto; /* 移动端可以横向滚动 */
+}
+
+/* 每一列 */
+.board-column {
+  flex: 1; /* 三列平分宽度 */
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  min-width: 250px; /* 防止太窄 */
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+}
+
+.board-column h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #555;
+}
+
+/* 看板里的小卡片 */
+.board-card {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  border-left: 4px solid transparent; /* 预留位置 */
+}
+
+.board-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
