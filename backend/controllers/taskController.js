@@ -23,6 +23,7 @@ export const createTask = async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         user: req.user._id,
+        priority: req.body.priority || 'Low',
     });
 
     res. status(200).json(task);
