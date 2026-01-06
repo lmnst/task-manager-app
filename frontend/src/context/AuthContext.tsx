@@ -24,15 +24,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // 4. 创建一个 Provider 组件
 // ReactNode 类型用于表示任何可以被渲染的React子元素
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    try {
+      return storedUserInfo ? JSON.parse(storedUserInfo) : null;
+    } catch (error) {
+      console.error("Failed to parse locally stored user information", error);
+      return null;
+    }
+  });
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
 
   // 5. 使用 useEffect 在应用加载时检查 localStorage
   useEffect(() => {
-    const storedUserInfo = localStorage.getItem('userInfo');
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
-    }
+    setLoading(false);
   }, []); // 空依赖数组意味着这个effect只在组件首次挂载时运行一次
 
   // 登录方法
@@ -50,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userInfo, login, logout }}>
+    <AuthContext.Provider value={{ userInfo, login, logout, loading } as any}>
       {children}
     </AuthContext.Provider>
   );
